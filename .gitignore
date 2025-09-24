@@ -3,5 +3,10 @@ __pycache__
 *.log
 *.pyc
 *.pyo
-.kolam
 .swastikA
+.venv
+core
+manimations
+media
+*.svg
+test_*.py

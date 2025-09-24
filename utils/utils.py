@@ -87,22 +87,13 @@ def save_image(image_base64: Optional[str], image_path: Union[str, Path]) -> Opt
         logger.error(f"Failed to save image to {image_path}: {str(e)}", exc_info=True)
         return None
 
-def make_system_prompt(suffix: str) -> str:
-    """
-    Generate a system prompt with the given suffix.
-    
-    Args:
-        suffix: Additional context or instructions to append to the base prompt
-        
-    Returns:
-        Formatted system prompt string
-    """
-    base_prompt = (
-        "You are a helpful AI assistant, collaborating with other assistants."
-        " Use the provided tools to progress towards answering the question."
-        " If you are unable to fully answer, that's OK, another assistant with different tools"
-        " will help where you left off. Execute what you can to make progress."
-        " If you or any of the other assistants have the final answer or deliverable,"
-        " prefix your response with FINAL ANSWER so the team knows to stop."
-    )
-    return f"{base_prompt}\n{suffix}" if suffix else base_prompt
+def encode_image(image_path: str) -> bytes:
+    with open(image_path, "rb") as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+    return encoded_image
+
+def decode_image(image_base64: str) -> bytes:
+    with open(image_path, "rb") as image_file:
+        encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
+    return encoded_image
+

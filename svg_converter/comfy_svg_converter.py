@@ -686,6 +686,8 @@ class TS_ImageToSVGStringBW_Potracer:
                 "zero_sharp_corners": ("BOOLEAN", {"default": False}),
                 "opttolerance": ("FLOAT", {"default": 0.2, "min": 0.0, "max": 1.0, "step": 0.01}),
                 "optimize_curve": ("BOOLEAN", {"default": True}),
+                # New: control whether to add a full-canvas background rectangle.
+                "add_background_rect": ("BOOLEAN", {"default": False}),
                 "foreground_color": ("STRING", {"widget": "color", "default": "#000000"}),
                 "background_color": ("STRING", {"widget": "color", "default": "#FFFFFF"}),
                 "stroke_color": ("STRING", {"widget": "color", "default": "#FF0000"}),
@@ -700,6 +702,7 @@ class TS_ImageToSVGStringBW_Potracer:
     def vectorize(self, image, threshold, turnpolicy, turdsize, corner_threshold, opttolerance,
                   input_foreground="Black on White", optimize_curve=True,
                   zero_sharp_corners=False,
+                  add_background_rect=False,
                   foreground_color="#000000", background_color="#FFFFFF",
                   stroke_color="#FF0000", stroke_width=0.0):
         
@@ -758,7 +761,8 @@ class TS_ImageToSVGStringBW_Potracer:
                 background_rect = ""
                 bg_color_lower = background_color.lower()
 
-                if bg_color_lower != "none" and bg_color_lower != "":
+                # Only add a background rectangle if explicitly requested
+                if add_background_rect and bg_color_lower != "none" and bg_color_lower != "":
                     background_rect = f'<rect width="100%" height="100%" fill="{background_color}"/>'
 
                 scaled_stroke_width = stroke_width * scale
@@ -851,4 +855,3 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "TS_SVGPathSimplify": "SVG String Path Simplify",
     "TS_ImageToSVGStringBW_Potracer": "Image to SVG String BW_Potracer",
 }
-
